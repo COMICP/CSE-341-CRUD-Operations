@@ -1,0 +1,27 @@
+{
+  "name": "cse-341-crud-operations",
+  "version": "1.0.0",
+  "description": "Customer Tracker",
+  "homepage": "https://github.com/COMICP/CSE-341-CRUD-Operations#readme",
+  "bugs": {
+    "url": "https://github.com/COMICP/CSE-341-CRUD-Operations/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/COMICP/CSE-341-CRUD-Operations.git"
+  },
+  "license": "ISC",
+  "author": "JadenBinette",
+  "type": "commonjs",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "mongodb": "^6.15.0",
+    "swagger-autogen": "^2.23.7",
+    "swagger-ui-express": "^5.0.1"
+  }
+}
