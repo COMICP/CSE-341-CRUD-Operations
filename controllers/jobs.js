@@ -3,7 +3,7 @@ const { get } = require("../routes");
 const objectId = require("mongodb").ObjectId;
 
 const getAllJobs = async (req, res) => {
-  //#swagger.tags=['jobs']
+  //#swagger.tags=['Jobs']
   const result = await mongodb.getDatabase().db().collection("Jobs").find();
   result.toArray().then((users) => {
     res.setHeader("content-type", "application/json");
@@ -29,11 +29,11 @@ const getSingleJob = async (req, res) => {
 const createJob = async (req, res) => {
   //#swagger.tags=['Jobs']
   const contact = {
-    firstName: req.body.firstName,
-    lastName: req.body.lastName,
-    email: req.body.email,
-    favoriteColor: req.body.favoriteColor,
-    birthday: req.body.birthday,
+    ownerID: req.body.ownerID,
+    title: req.body.title,
+    address: req.body.address,
+    date: req.body.date,
+    price: req.body.price,
   };
   const response = await mongodb
     .getDatabase()
@@ -55,11 +55,11 @@ const updateJob = async (req, res) => {
   //#swagger.tags=['Jobs']
   const jobID = new objectId(req.params.id);
   const contact = {
-    firstName: req.body.firstName,
-    lastName: req.body.lastName,
-    email: req.body.email,
-    favoriteColor: req.body.favoriteColor,
-    birthday: req.body.birthday,
+    ownerID: req.body.ownerID,
+    title: req.body.title,
+    address: req.body.address,
+    date: req.body.date,
+    price: req.body.price,
   };
   const response = await mongodb
     .getDatabase()
@@ -83,7 +83,7 @@ const deleteJob = async (req, res) => {
   const response = await mongodb
     .getDatabase()
     .db()
-    .collection("jobs")
+    .collection("Jobs")
     .deleteOne({ _id: jobID });
 
   if (response.deletedCount > 0) {

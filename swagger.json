@@ -5,7 +5,7 @@
     "description": "Users Api",
     "version": "1.0.0"
   },
-  "host": "localhost:3000",
+  "host": "localhost:3100",
   "basePath": "/",
   "schemes": [
     "http",
@@ -35,10 +35,10 @@
         }
       }
     },
-    "/contacts/": {
+    "/clients/": {
       "get": {
         "tags": [
-          "Contacts"
+          "Clients"
         ],
         "description": "",
         "produces": [
@@ -52,7 +52,7 @@
       },
       "post": {
         "tags": [
-          "Contacts"
+          "Clients"
         ],
         "description": "",
         "parameters": [
@@ -62,19 +62,19 @@
             "schema": {
               "type": "object",
               "properties": {
-                "firstName": {
+                "firstname": {
                   "example": "any"
                 },
-                "lastName": {
+                "lastname": {
                   "example": "any"
                 },
                 "email": {
                   "example": "any"
                 },
-                "favoriteColor": {
+                "phone": {
                   "example": "any"
                 },
-                "birthday": {
+                "address": {
                   "example": "any"
                 }
               }
@@ -91,10 +91,10 @@
         }
       }
     },
-    "/contacts/{id}": {
+    "/clients/{id}": {
       "get": {
         "tags": [
-          "Contacts"
+          "Clients"
         ],
         "description": "",
         "produces": [
@@ -116,7 +116,7 @@
       },
       "put": {
         "tags": [
-          "Contacts"
+          "Clients"
         ],
         "description": "",
         "parameters": [
@@ -132,19 +132,19 @@
             "schema": {
               "type": "object",
               "properties": {
-                "firstName": {
+                "firstname": {
                   "example": "any"
                 },
-                "lastName": {
+                "lastname": {
                   "example": "any"
                 },
                 "email": {
                   "example": "any"
                 },
-                "favoriteColor": {
+                "phone": {
                   "example": "any"
                 },
-                "birthday": {
+                "address": {
                   "example": "any"
                 }
               }
@@ -162,7 +162,155 @@
       },
       "delete": {
         "tags": [
-          "Contacts"
+          "Clients"
+        ],
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/jobs/": {
+      "get": {
+        "tags": [
+          "Jobs"
+        ],
+        "description": "",
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Jobs"
+        ],
+        "description": "",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "ownerID": {
+                  "example": "any"
+                },
+                "title": {
+                  "example": "any"
+                },
+                "address": {
+                  "example": "any"
+                },
+                "date": {
+                  "example": "any"
+                },
+                "price": {
+                  "example": "any"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/jobs/{id}": {
+      "get": {
+        "tags": [
+          "Jobs"
+        ],
+        "description": "",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Jobs"
+        ],
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "ownerID": {
+                  "example": "any"
+                },
+                "title": {
+                  "example": "any"
+                },
+                "address": {
+                  "example": "any"
+                },
+                "date": {
+                  "example": "any"
+                },
+                "price": {
+                  "example": "any"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Jobs"
         ],
         "description": "",
         "parameters": [

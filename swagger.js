@@ -5,11 +5,11 @@ const doc = {
     title: "Users Api",
     description: "Users Api",
   },
-  host: "localhost:3000",
+  host: "localhost:3100",
   schemes: ["http", "https"],
 };
 
-const outputFile = './swagger.json'
-const endpointsFiles = ['./routes/index.js']
+const outputFile = "./swagger.json";
+const endpointsFiles = ["./routes/index.js"];
 
-swaggerAutogen(outputFile, endpointsFiles, doc)
+swaggerAutogen(outputFile, endpointsFiles, doc);

@@ -29,11 +29,11 @@ const getSingle = async (req, res) => {
 const createCont = async (req, res) => {
   //#swagger.tags=['Clients']
   const contact = {
-    firstName: req.body.firstName,
-    lastName: req.body.lastName,
+    firstname: req.body.firstname,
+    lastname: req.body.lastname,
     email: req.body.email,
-    favoriteColor: req.body.favoriteColor,
-    birthday: req.body.birthday,
+    phone: req.body.phone,
+    address: req.body.address,
   };
   const response = await mongodb
     .getDatabase()
@@ -55,11 +55,11 @@ const updateCont = async (req, res) => {
   //#swagger.tags=['Clients']
   const clientID = new objectId(req.params.id);
   const contact = {
-    firstName: req.body.firstName,
-    lastName: req.body.lastName,
+    firstname: req.body.firstname,
+    lastname: req.body.lastname,
     email: req.body.email,
-    favoriteColor: req.body.favoriteColor,
-    birthday: req.body.birthday,
+    phone: req.body.phone,
+    address: req.body.address,
   };
   const response = await mongodb
     .getDatabase()
