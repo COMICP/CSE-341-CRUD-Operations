@@ -2,9 +2,9 @@ const mongodb = require("../data/database");
 const { get } = require("../routes");
 const objectId = require("mongodb").ObjectId;
 
-const getAll = async (req, res) => {
-  //#swagger.tags=['Contacts']
-  const result = await mongodb.getDatabase().db().collection("contacts").find();
+const getAllJobs = async (req, res) => {
+  //#swagger.tags=['jobs']
+  const result = await mongodb.getDatabase().db().collection("Jobs").find();
   result.toArray().then((users) => {
     res.setHeader("content-type", "application/json");
     res.status(200).json(users);
@@ -12,22 +12,22 @@ const getAll = async (req, res) => {
   });
 };
 
-const getSingle = async (req, res) => {
-  //#swagger.tags=['Contacts']
-  const userID = new objectId(req.params.id);
+const getSingleJob = async (req, res) => {
+  //#swagger.tags=['Jobs']
+  const jobID = new objectId(req.params.id);
   const result = await mongodb
     .getDatabase()
     .db()
-    .collection("contacts")
-    .find({ _id: userID });
+    .collection("Jobs")
+    .find({ _id: jobID });
   result.toArray().then((users) => {
     res.setHeader("content-type", "application/json");
     res.status(200).json(users);
   });
 };
 
-const createCont = async (req, res) => {
-  //#swagger.tags=['Contacts']
+const createJob = async (req, res) => {
+  //#swagger.tags=['Jobs']
   const contact = {
     firstName: req.body.firstName,
     lastName: req.body.lastName,
@@ -38,7 +38,7 @@ const createCont = async (req, res) => {
   const response = await mongodb
     .getDatabase()
     .db()
-    .collection("contacts")
+    .collection("Jobs")
     .insertOne(contact);
 
   if (response.acknowledged) {
@@ -51,9 +51,9 @@ const createCont = async (req, res) => {
   }
 };
 
-const updateCont = async (req, res) => {
-  //#swagger.tags=['Contacts']
-  const userID = new objectId(req.params.id);
+const updateJob = async (req, res) => {
+  //#swagger.tags=['Jobs']
+  const jobID = new objectId(req.params.id);
   const contact = {
     firstName: req.body.firstName,
     lastName: req.body.lastName,
@@ -64,8 +64,8 @@ const updateCont = async (req, res) => {
   const response = await mongodb
     .getDatabase()
     .db()
-    .collection("contacts")
-    .replaceOne({ _id: userID }, contact);
+    .collection("Jobs")
+    .replaceOne({ _id: jobID }, contact);
 
   if (response.modifiedCount > 0) {
     res.status(204).send();
@@ -76,15 +76,15 @@ const updateCont = async (req, res) => {
   }
 };
 
-const deleteCont = async (req, res) => {
-  //#swagger.tags=['Contacts']
-  const userID = new objectId(req.params.id);
+const deleteJob = async (req, res) => {
+  //#swagger.tags=['Jobs']
+  const jobID = new objectId(req.params.id);
 
   const response = await mongodb
     .getDatabase()
     .db()
-    .collection("contacts")
-    .deleteOne({ _id: userID });
+    .collection("jobs")
+    .deleteOne({ _id: jobID });
 
   if (response.deletedCount > 0) {
     res.status(204).send();
@@ -95,9 +95,9 @@ const deleteCont = async (req, res) => {
   }
 };
 module.exports = {
-  getAll,
-  getSingle,
-  updateCont,
-  createCont,
-  deleteCont,
+  getAllJobs,
+  getSingleJob,
+  updateJob,
+  createJob,
+  deleteJob,
 };
