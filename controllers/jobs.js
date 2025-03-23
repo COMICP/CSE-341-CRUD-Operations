@@ -4,26 +4,45 @@ const objectId = require("mongodb").ObjectId;
 
 const getAllJobs = async (req, res) => {
   //#swagger.tags=['Jobs']
-  const result = await mongodb.getDatabase().db().collection("Jobs").find();
-  result.toArray().then((users) => {
+  try {
+    const jobs = await mongodb
+      .getDatabase()
+      .db()
+      .collection("Jobs")
+      .find()
+      .toArray();
+
+    if (!jobs || jobs.length === 0) {
+      return res.status(404).json({ message: "No jobs found" });
+    }
+
     res.setHeader("content-type", "application/json");
-    res.status(200).json(users);
-    console.log(users);
-  });
+    res.status(200).json(jobs);
+    console.log(jobs);
+  } catch (err) {
+    res.status(400).json({ message: err.message });
+  }
 };
 
 const getSingleJob = async (req, res) => {
   //#swagger.tags=['Jobs']
   const jobID = new objectId(req.params.id);
-  const result = await mongodb
-    .getDatabase()
-    .db()
-    .collection("Jobs")
-    .find({ _id: jobID });
-  result.toArray().then((users) => {
+  try {
+    const result = await mongodb
+      .getDatabase()
+      .db()
+      .collection("Jobs")
+      .findOne({ _id: jobID });
+
+    if (!result) {
+      return res.status(404).json({ message: "Job not found" });
+    }
+
     res.setHeader("content-type", "application/json");
-    res.status(200).json(users);
-  });
+    res.status(200).json(result);
+  } catch (err) {
+    res.status(400).json({ message: err.message });
+  }
 };
 
 const createJob = async (req, res) => {

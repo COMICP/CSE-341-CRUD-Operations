@@ -3,29 +3,42 @@ const { get } = require("../routes");
 const objectId = require("mongodb").ObjectId;
 
 const getAll = async (req, res) => {
-  //#swagger.tags=['Clients']
-  const result = await mongodb.getDatabase().db().collection("Clients").find();
-  result.toArray().then((users) => {
+  try {
+    //#swagger.tags=['Clients']
+    const lists = await mongodb
+      .getDatabase()
+      .db()
+      .collection("Clients")
+      .find()
+      .toArray();
+
     res.setHeader("content-type", "application/json");
-    res.status(200).json(users);
-    console.log(users);
-  });
+    res.status(200).json(lists);
+  } catch (err) {
+    res.status(400).json({ message: err.message });
+  }
 };
 
 const getSingle = async (req, res) => {
   //#swagger.tags=['Clients']
   const clientID = new objectId(req.params.id);
-  const result = await mongodb
-    .getDatabase()
-    .db()
-    .collection("Clients")
-    .find({ _id: clientID });
-  result.toArray().then((users) => {
-    res.setHeader("content-type", "application/json");
-    res.status(200).json(users);
-  });
-};
+  try {
+    const result = await mongodb
+      .getDatabase()
+      .db()
+      .collection("Clients")
+      .findOne({ _id: clientID });
 
+    if (!result) {
+      return res.status(404).json({ message: "Client not found" });
+    }
+
+    res.setHeader("content-type", "application/json");
+    res.status(200).json(result);
+  } catch (err) {
+    res.status(400).json({ message: err.message });
+  }
+};
 const createCont = async (req, res) => {
   //#swagger.tags=['Clients']
   const contact = {
