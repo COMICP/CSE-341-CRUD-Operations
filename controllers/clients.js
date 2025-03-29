@@ -20,9 +20,9 @@ const getAll = async (req, res) => {
 };
 
 const getSingle = async (req, res) => {
-  //#swagger.tags=['Clients']
-  const clientID = new objectId(req.params.id);
   try {
+    //#swagger.tags=['Clients']
+    const clientID = new objectId(req.params.id);
     const result = await mongodb
       .getDatabase()
       .db()
@@ -39,78 +39,99 @@ const getSingle = async (req, res) => {
     res.status(400).json({ message: err.message });
   }
 };
-const createCont = async (req, res) => {
-  //#swagger.tags=['Clients']
-  const contact = {
-    firstname: req.body.firstname,
-    lastname: req.body.lastname,
-    email: req.body.email,
-    phone: req.body.phone,
-    address: req.body.address,
-  };
-  const response = await mongodb
-    .getDatabase()
-    .db()
-    .collection("Clients")
-    .insertOne(contact);
 
-  if (response.acknowledged) {
-    res.status(204).send();
-  } else {
-    console.log(response);
-    res
-      .status(500)
-      .json(response.error || "some error occured updating the contact.");
+const createCont = async (req, res) => {
+  try {
+    //#swagger.tags=['Clients']
+    const contact = {
+      firstname: req.body.firstname,
+      lastname: req.body.lastname,
+      email: req.body.email,
+      phone: req.body.phone,
+      address: req.body.address,
+    };
+
+    const response = await mongodb
+      .getDatabase()
+      .db()
+      .collection("Clients")
+      .insertOne(contact);
+
+    if (response.acknowledged) {
+      res.status(204).send();
+    } else {
+      console.log(response);
+      res
+        .status(500)
+        .json(
+          response.error || "Some error occurred while creating the contact."
+        );
+    }
+  } catch (err) {
+    res.status(500).json({ message: err.message });
   }
 };
 
 const updateCont = async (req, res) => {
-  //#swagger.tags=['Clients']
-  const clientID = new objectId(req.params.id);
-  const contact = {
-    firstname: req.body.firstname,
-    lastname: req.body.lastname,
-    email: req.body.email,
-    phone: req.body.phone,
-    address: req.body.address,
-  };
-  const response = await mongodb
-    .getDatabase()
-    .db()
-    .collection("Clients")
-    .replaceOne({ _id: clientID }, contact);
+  try {
+    //#swagger.tags=['Clients']
+    const clientID = new objectId(req.params.id);
+    const contact = {
+      firstname: req.body.firstname,
+      lastname: req.body.lastname,
+      email: req.body.email,
+      phone: req.body.phone,
+      address: req.body.address,
+    };
 
-  if (response.modifiedCount > 0) {
-    res.status(204).send();
-  } else {
-    res
-      .status(500)
-      .json(response.error || "some error occured updating the contact.");
+    const response = await mongodb
+      .getDatabase()
+      .db()
+      .collection("Clients")
+      .replaceOne({ _id: clientID }, contact);
+
+    if (response.modifiedCount > 0) {
+      res.status(204).send();
+    } else {
+      res
+        .status(500)
+        .json(
+          response.error || "Some error occurred while updating the contact."
+        );
+    }
+  } catch (err) {
+    res.status(500).json({ message: err.message });
   }
 };
 
 const deleteCont = async (req, res) => {
-  //#swagger.tags=['Clients']
-  const clientID = new objectId(req.params.id);
+  try {
+    //#swagger.tags=['Clients']
+    const clientID = new objectId(req.params.id);
+    const response = await mongodb
+      .getDatabase()
+      .db()
+      .collection("Clients")
+      .deleteOne({ _id: clientID });
 
-  const response = await mongodb
-    .getDatabase()
-    .db()
-    .collection("Clients")
-    .deleteOne({ _id: clientID });
-
-  if (response.deletedCount > 0) {
-    res.status(204).send();
-  } else {
-    res
-      .status(500)
-      .json(response.error || "some error occured updating the contact.");
+    if (response.deletedCount > 0) {
+      res.status(204).send();
+    } else {
+      res
+        .status(500)
+        .json(
+          response.error || "Some error occurred while deleting the contact."
+        );
+    }
+  } catch (err) {
+    res.status(500).json({ message: err.message });
   }
 };
+
 module.exports = {
   getAll,
   getSingle,
-  updateCont,
   createCont,
+  updateCont,
   deleteCont,
 };

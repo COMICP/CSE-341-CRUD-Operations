@@ -3,8 +3,8 @@ const { get } = require("../routes");
 const objectId = require("mongodb").ObjectId;
 
 const getAllJobs = async (req, res) => {
-  //#swagger.tags=['Jobs']
   try {
+    //#swagger.tags=['Jobs']
     const jobs = await mongodb
       .getDatabase()
       .db()
@@ -20,14 +20,14 @@ const getAllJobs = async (req, res) => {
     res.status(200).json(jobs);
     console.log(jobs);
   } catch (err) {
-    res.status(400).json({ message: err.message });
+    res.status(500).json({ message: err.message });
   }
 };
 
 const getSingleJob = async (req, res) => {
-  //#swagger.tags=['Jobs']
-  const jobID = new objectId(req.params.id);
   try {
+    //#swagger.tags=['Jobs']
+    const jobID = new objectId(req.params.id);
     const result = await mongodb
       .getDatabase()
       .db()
@@ -41,82 +41,97 @@ const getSingleJob = async (req, res) => {
     res.setHeader("content-type", "application/json");
     res.status(200).json(result);
   } catch (err) {
-    res.status(400).json({ message: err.message });
+    res.status(500).json({ message: err.message });
   }
 };
 
 const createJob = async (req, res) => {
-  //#swagger.tags=['Jobs']
-  const contact = {
-    ownerID: req.body.ownerID,
-    title: req.body.title,
-    address: req.body.address,
-    date: req.body.date,
-    price: req.body.price,
-  };
-  const response = await mongodb
-    .getDatabase()
-    .db()
-    .collection("Jobs")
-    .insertOne(contact);
+  try {
+    //#swagger.tags=['Jobs']
+    const contact = {
+      ownerID: req.body.ownerID,
+      title: req.body.title,
+      address: req.body.address,
+      date: req.body.date,
+      price: req.body.price,
+    };
 
-  if (response.acknowledged) {
-    res.status(204).send();
-  } else {
-    console.log(response);
-    res
-      .status(500)
-      .json(response.error || "some error occured updating the contact.");
+    const response = await mongodb
+      .getDatabase()
+      .db()
+      .collection("Jobs")
+      .insertOne(contact);
+
+    if (response.acknowledged) {
+      res.status(204).send();
+    } else {
+      console.log(response);
+      res
+        .status(500)
+        .json(response.error || "Some error occurred while creating the job.");
+    }
+  } catch (err) {
+    res.status(500).json({ message: err.message });
   }
 };
 
 const updateJob = async (req, res) => {
-  //#swagger.tags=['Jobs']
-  const jobID = new objectId(req.params.id);
-  const contact = {
-    ownerID: req.body.ownerID,
-    title: req.body.title,
-    address: req.body.address,
-    date: req.body.date,
-    price: req.body.price,
-  };
-  const response = await mongodb
-    .getDatabase()
-    .db()
-    .collection("Jobs")
-    .replaceOne({ _id: jobID }, contact);
+  try {
+    //#swagger.tags=['Jobs']
+    const jobID = new objectId(req.params.id);
+    const contact = {
+      ownerID: req.body.ownerID,
+      title: req.body.title,
+      address: req.body.address,
+      date: req.body.date,
+      price: req.body.price,
+    };
 
-  if (response.modifiedCount > 0) {
-    res.status(204).send();
-  } else {
-    res
-      .status(500)
-      .json(response.error || "some error occured updating the contact.");
+    const response = await mongodb
+      .getDatabase()
+      .db()
+      .collection("Jobs")
+      .replaceOne({ _id: jobID }, contact);
+
+    if (response.modifiedCount > 0) {
+      res.status(204).send();
+    } else {
+      res
+        .status(500)
+        .json(response.error || "Some error occurred while updating the job.");
+    }
+  } catch (err) {
+    res.status(500).json({ message: err.message });
   }
 };
 
 const deleteJob = async (req, res) => {
-  //#swagger.tags=['Jobs']
-  const jobID = new objectId(req.params.id);
+  try {
+    //#swagger.tags=['Jobs']
+    const jobID = new objectId(req.params.id);
 
-  const response = await mongodb
-    .getDatabase()
-    .db()
-    .collection("Jobs")
-    .deleteOne({ _id: jobID });
+    const response = await mongodb
+      .getDatabase()
+      .db()
+      .collection("Jobs")
+      .deleteOne({ _id: jobID });
 
-  if (response.deletedCount > 0) {
-    res.status(204).send();
-  } else {
-    res
-      .status(500)
-      .json(response.error || "some error occured updating the contact.");
+    if (response.deletedCount > 0) {
+      res.status(204).send();
+    } else {
+      res
+        .status(500)
+        .json(response.error || "Some error occurred while deleting the job.");
+    }
+  } catch (err) {
+    res.status(500).json({ message: err.message });
   }
 };
+
 module.exports = {
   getAllJobs,
   getSingleJob,
-  updateJob,
   createJob,
+  updateJob,
   deleteJob,
 };

@@ -5,3 +5,7 @@ Node modules
 - dotenv
 - swagger-ui-express
 - swagger-autogen
+- express-session
+- passport
+- passport-github2
+- cors
